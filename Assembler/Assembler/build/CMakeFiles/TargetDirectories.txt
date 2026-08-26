@@ -1,0 +1,3 @@
+/home/host-home/Downloads/MIPS32CPUwithAssembler/MipsAssembler/build/CMakeFiles/MipsAssembler.dir
+/home/host-home/Downloads/MIPS32CPUwithAssembler/MipsAssembler/build/CMakeFiles/edit_cache.dir
+/home/host-home/Downloads/MIPS32CPUwithAssembler/MipsAssembler/build/CMakeFiles/rebuild_cache.dir
