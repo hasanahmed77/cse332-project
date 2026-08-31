@@ -136,7 +136,7 @@ const truthTable = new Table({
   width: { size: cw.reduce((a, b) => a + b, 0), type: WidthType.DXA },
   rows: [
     new TableRow({ tableHeader: true, children: cols.map((c, i) =>
-      tcell(c, i, { fill: "000000", bold: true, color: "FFFFFF", size: 14 })) }),
+      tcell(c, i, { bold: true, size: 14 })) }),
     ...rows.map((r, ri) => {
       const added = r[0].indexOf("(added)") >= 0;
       return new TableRow({ children: r.map((v, i) =>
@@ -150,10 +150,10 @@ const ecw = [2500, 2200, 5500];
 function ecell(v, i, hdr) {
   return new TableCell({
     width: { size: ecw[i], type: WidthType.DXA },
-    shading: hdr ? { type: ShadingType.CLEAR, fill: "000000" } : undefined,
+    shading: undefined,
     margins: { top: 45, bottom: 45, left: 90, right: 90 },
     children: [new Paragraph({ children: [new TextRun({
-      text: v, size: 16, bold: hdr, color: hdr ? "FFFFFF" : undefined,
+      text: v, size: 16, bold: hdr,
       font: (!hdr && i < 2) ? "Consolas" : undefined })] })],
   });
 }
