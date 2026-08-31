@@ -57,7 +57,15 @@ const titleBlock = [
     children: [new TextRun({ text: "CSE332 Computer Architecture and Organization, Assignment 5, Summer 2026", size: 20, italics: true })] }),
 ];
 
+const members = [
+  { name: "Mustakim Ahmed Hasan", id: "2421349042" },
+  { name: "Md. Rafiul Haque", id: "2413697042" },
+  { name: "Md Ashikur Rahman", id: "2411632642" },
+  { name: "Sami Hyder Chowdhury", id: "2132720642" },
+];
+
 function memberCell(n) {
+  const m = members[n - 1];
   const line = (t, b) => new Paragraph({
     alignment: AlignmentType.CENTER, spacing: { after: 60 },
     children: [new TextRun({ text: t, size: 19, bold: b })],
@@ -71,8 +79,8 @@ function memberCell(n) {
     },
     children: [
       line("Group Member " + n, true),
-      line("Name  ______________________________"),
-      line("Student ID  _________________________"),
+      line("Name  " + m.name),
+      line("Student ID  " + m.id),
     ],
   });
 }
