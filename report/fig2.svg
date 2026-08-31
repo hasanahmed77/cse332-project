@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 100 1500 710" font-family="Arial, Helvetica, sans-serif">
+  <rect x="0" y="100" width="1500" height="710" fill="white"/>
+
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1a1a1a"/>
+    </marker>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#c0392b"/>
+    </marker>
+    <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1f5fa8"/>
+    </marker>
+  </defs>
+
+  <g stroke-linecap="square" fill="none">
+
+  <!-- ================= BOXES ================= -->
+  <rect x="60" y="120" width="140" height="120" fill="#eef2f7" stroke="#1f5fa8" stroke-width="2.5"/>
+  <text x="130" y="188" text-anchor="middle" font-size="24" font-weight="bold" fill="#111" stroke="none">Control</text>
+
+  <rect x="100" y="340" width="200" height="220" fill="#eef2f7" stroke="#1a1a1a" stroke-width="2"/>
+  <text x="200" y="372" text-anchor="middle" font-size="22" font-weight="bold" fill="#111" stroke="none">Registers</text>
+  <text x="112" y="396" font-size="17" fill="#333" stroke="none">Rd reg 1</text>
+  <text x="112" y="441" font-size="17" fill="#333" stroke="none">Rd reg 2</text>
+  <text x="112" y="496" font-size="17" fill="#333" stroke="none">Wr reg</text>
+  <text x="112" y="536" font-size="17" fill="#333" stroke="none">Wr data</text>
+  <text x="290" y="396" text-anchor="end" font-size="17" fill="#333" stroke="none">Rd data 1</text>
+  <text x="290" y="441" text-anchor="end" font-size="17" fill="#333" stroke="none">Rd data 2</text>
+
+  <rect x="440" y="340" width="160" height="140" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+  <text x="520" y="392" text-anchor="middle" font-size="22" font-weight="bold" fill="#c0392b" stroke="none">Multiplier</text>
+  <text x="520" y="420" text-anchor="middle" font-size="17" fill="#c0392b" stroke="none">signed, 32 by 32</text>
+  <text x="520" y="442" text-anchor="middle" font-size="17" fill="#c0392b" stroke="none">giving 64 bits</text>
+  <text x="520" y="504" text-anchor="middle" font-size="19" font-weight="bold" fill="#c0392b" stroke="none">NEW</text>
+
+  <rect x="720" y="330" width="160" height="160" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+  <text x="800" y="398" text-anchor="middle" font-size="24" font-weight="bold" fill="#c0392b" stroke="none">HI and LO</text>
+  <text x="800" y="424" text-anchor="middle" font-size="20" fill="#c0392b" stroke="none">registers</text>
+  <text x="800" y="514" text-anchor="middle" font-size="19" font-weight="bold" fill="#c0392b" stroke="none">NEW</text>
+
+  <rect x="660" y="580" width="240" height="80" fill="#eef2f7" stroke="#1f5fa8" stroke-width="2.5"/>
+  <text x="780" y="610" text-anchor="middle" font-size="19" font-weight="bold" fill="#111" stroke="none">Existing write back mux</text>
+  <text x="780" y="634" text-anchor="middle" font-size="16" fill="#333" stroke="none">ALU result, memory data, PC+4</text>
+
+  <rect x="440" y="560" width="180" height="90" fill="#eef2f7" stroke="#1a1a1a" stroke-width="2"/>
+  <text x="530" y="598" text-anchor="middle" font-size="19" font-weight="bold" fill="#111" stroke="none">ALU and the</text>
+  <text x="530" y="622" text-anchor="middle" font-size="19" font-weight="bold" fill="#111" stroke="none">rest of the datapath</text>
+
+  <!-- ================= MUXES ================= -->
+  <polygon points="940,340 940,480 985,464 985,356" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+  <text x="962" y="404" text-anchor="middle" font-size="16" fill="#c0392b" stroke="none">M</text>
+  <text x="962" y="422" text-anchor="middle" font-size="16" fill="#c0392b" stroke="none">U</text>
+  <text x="962" y="504" text-anchor="middle" font-size="19" font-weight="bold" fill="#c0392b" stroke="none">NEW</text>
+
+  <polygon points="1060,565 1060,675 1105,659 1105,581" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+  <text x="1082" y="614" text-anchor="middle" font-size="16" fill="#c0392b" stroke="none">M</text>
+  <text x="1082" y="632" text-anchor="middle" font-size="16" fill="#c0392b" stroke="none">U</text>
+  <text x="1082" y="700" text-anchor="middle" font-size="19" font-weight="bold" fill="#c0392b" stroke="none">NEW</text>
+
+  <!-- ================= WIRES ================= -->
+  <path d="M300,385 H440" stroke="#1a1a1a" stroke-width="2" marker-end="url(#a)"/>
+  <circle cx="330" cy="385" r="5" fill="#1a1a1a" stroke="none"/>
+  <path d="M330,385 V585 H440" stroke="#1a1a1a" stroke-width="2" marker-end="url(#a)"/>
+  <text x="344" y="378" font-size="17" fill="#444" stroke="none">rs</text>
+
+  <path d="M300,435 H440" stroke="#1a1a1a" stroke-width="2" marker-end="url(#a)"/>
+  <circle cx="410" cy="435" r="5" fill="#1a1a1a" stroke="none"/>
+  <path d="M410,435 V620 H440" stroke="#1a1a1a" stroke-width="2" marker-end="url(#a)"/>
+  <text x="358" y="428" font-size="17" fill="#444" stroke="none">rt</text>
+
+  <path d="M600,375 H720" stroke="#c0392b" stroke-width="2.5" marker-end="url(#ar)"/>
+  <text x="604" y="366" font-size="16" font-weight="bold" fill="#c0392b" stroke="none">product 63..32</text>
+  <path d="M600,445 H720" stroke="#c0392b" stroke-width="2.5" marker-end="url(#ar)"/>
+  <text x="606" y="468" font-size="16" font-weight="bold" fill="#c0392b" stroke="none">product 31..0</text>
+
+  <path d="M880,375 H940" stroke="#c0392b" stroke-width="2.5" marker-end="url(#ar)"/>
+  <text x="896" y="366" font-size="18" font-weight="bold" fill="#c0392b" stroke="none">HI</text>
+  <path d="M880,445 H940" stroke="#c0392b" stroke-width="2.5" marker-end="url(#ar)"/>
+  <text x="896" y="468" font-size="18" font-weight="bold" fill="#c0392b" stroke="none">LO</text>
+
+  <path d="M985,410 H1015 V590 H1060" stroke="#c0392b" stroke-width="2.5" marker-end="url(#ar)"/>
+  <path d="M900,620 H1030 V650 H1060" stroke="#1f5fa8" stroke-width="2.5" marker-end="url(#ab)"/>
+
+  <path d="M1105,620 H1160 V700 H60 V530 H100" stroke="#c0392b" stroke-width="2.5" marker-end="url(#ar)"/>
+  <text x="470" y="692" font-size="19" font-weight="bold" fill="#c0392b" stroke="none">write data returns to the register file</text>
+
+  <path d="M20,490 H100" stroke="#1a1a1a" stroke-width="2" marker-end="url(#a)"/>
+  <text x="14" y="472" font-size="15" fill="#444" stroke="none">Instr 15..11</text>
+
+  <!-- ================= CONTROL ================= -->
+  <path d="M200,160 H800 V330" stroke="#c0392b" stroke-width="2.5" marker-end="url(#ar)"/>
+  <text x="788" y="300" text-anchor="end" font-size="19" font-weight="bold" fill="#c0392b" stroke="none">MultOp</text>
+  <text x="300" y="152" font-size="17" font-weight="bold" fill="#c0392b" stroke="none">write enable for HI and LO</text>
+
+  <path d="M200,200 H1082 V565" stroke="#c0392b" stroke-width="2.5" marker-end="url(#ar)"/>
+  <text x="1094" y="548" font-size="19" font-weight="bold" fill="#c0392b" stroke="none">MFHiLo</text>
+  <text x="300" y="192" font-size="17" font-weight="bold" fill="#c0392b" stroke="none">selects the HI or LO value</text>
+
+  <path d="M962,312 V340" stroke="#c0392b" stroke-width="2.5" marker-end="url(#ar)"/>
+  <text x="850" y="304" font-size="17" font-weight="bold" fill="#c0392b" stroke="none">Func bit 1 picks HI or LO</text>
+
+  <path d="M200,322 V340" stroke="#1f5fa8" stroke-width="2" marker-end="url(#ab)"/>
+  <text x="146" y="316" font-size="18" fill="#1f5fa8" stroke="none">RegWrite</text>
+
+  <!-- ================= LEGEND ================= -->
+  <rect x="1180" y="340" width="280" height="130" fill="#fafafa" stroke="#bbb" stroke-width="1.5"/>
+  <path d="M1196,370 H1236" stroke="#1a1a1a" stroke-width="2.5"/>
+  <text x="1246" y="376" font-size="18" fill="#333" stroke="none">existing datapath</text>
+  <path d="M1196,402 H1236" stroke="#1f5fa8" stroke-width="2.5"/>
+  <text x="1246" y="408" font-size="18" fill="#1f5fa8" stroke="none">existing control</text>
+  <path d="M1196,434 H1236" stroke="#c0392b" stroke-width="3"/>
+  <text x="1246" y="440" font-size="18" font-weight="bold" fill="#c0392b" stroke="none">new hardware</text>
+
+  <!-- ================= FOOTNOTE ================= -->
+  <rect x="60" y="730" width="1400" height="72" fill="#fafafa" stroke="#ddd" stroke-width="1.5"/>
+  <text x="74" y="752" font-size="19" fill="#222" stroke="none" font-weight="bold">MULT writes no general purpose register, so RegWrite is held low. It raises MultOp, which latches the 64 bit product into HI and LO.</text>
+  <text x="74" y="774" font-size="19" fill="#222" stroke="none" font-weight="bold">MFHI and MFLO are ordinary R type writes to rd, so RegDst and RegWrite keep their normal R type values. MFHiLo only changes</text>
+  <text x="74" y="796" font-size="19" fill="#222" stroke="none" font-weight="bold">where the written value comes from, and bit 1 of the function field picks HI or LO without needing a further control signal.</text>
+
+  </g>
+</svg>
