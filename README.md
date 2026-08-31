@@ -2,7 +2,9 @@
 
 Assignment #5 (Summer 2026): extend a single-cycle MIPS datapath with new
 instructions, assemble MIPS assembly into machine code, and simulate the
-result — done entirely natively on Windows (no WSL).
+result — done entirely natively on Windows (no WSL). Nothing here is
+Windows-specific, though; the same steps work unchanged on macOS, just with
+Homebrew and clang/g++ instead of MSYS2 (see below).
 
 ## Contents
 
@@ -68,11 +70,13 @@ cannot run on Windows — that's very likely what your professor meant by
 "use WSL". It was rebuilt natively for Windows instead (see below); no WSL
 needed.
 
-## Building and running — 100% native Windows
+## Building and running
 
 ### 1. Build the assembler
 
-Requires a C++17 compiler. [MSYS2](https://www.msys2.org/) (`pacman -S
+Requires a C++17 compiler.
+
+**Windows** — [MSYS2](https://www.msys2.org/) (`pacman -S
 mingw-w64-ucrt-x86_64-gcc`) works well and is **not** WSL — it's a normal
 native Windows toolchain.
 
@@ -80,6 +84,19 @@ native Windows toolchain.
 cd Assembler/Assembler
 g++ -O2 -std=gnu++17 -o MipsAssembler.exe finalassembler.cpp
 ```
+
+**macOS** — clang ships with Xcode Command Line Tools (`xcode-select
+--install` if you don't have them yet); plain `g++` works too if you have
+it via Homebrew. No `.exe` extension needed for the output.
+
+```bash
+cd Assembler/Assembler
+g++ -O2 -std=gnu++17 -o MipsAssembler finalassembler.cpp
+```
+
+(`MipsAssembler.exe` is a Windows binary and won't run on macOS — build a
+Mac binary with the command above instead. Use `./MipsAssembler` in place
+of `./MipsAssembler.exe` in step 2 below.)
 
 ### 2. Assemble a program
 
@@ -102,19 +119,29 @@ addresses, split by segment).
 
 ### 4. Simulate
 
-[Icarus Verilog](https://bleyer.org/icarus/) is a free, native-Windows
-Verilog simulator — a drop-in stand-in for ModelSim for local testing. The
-same `.v` files work unchanged in ModelSim once it's available.
+[Icarus Verilog](https://bleyer.org/icarus/) is a free Verilog simulator —
+a drop-in stand-in for ModelSim for local testing, on both Windows and
+macOS. The same `.v` files work unchanged in ModelSim once it's available.
+
+**Windows** — install via the [official installer](https://bleyer.org/icarus/)
+or `winget install Icarus.Verilog`.
+
+**macOS** — install via Homebrew:
 
 ```bash
-cd MIPSVerilogWOJALv1/MIPSVerilogWOJALv1
+brew install icarus-verilog gtkwave
+```
+
+Then, on either platform, from `MIPSVerilogWOJALv1/MIPSVerilogWOJALv1`:
+
+```bash
 iverilog -g2012 -o sim.vvp MIPS_SCP.v MIPS_SCP_tb.v
 vvp sim.vvp
 ```
 
 `vvp` prints final register/HI/LO values and produces `MIPS_SCP_tb.vcd`,
-viewable in GTKWave (bundled with the Icarus Verilog Windows installer) or
-in ModelSim later.
+viewable in GTKWave (bundled with the Icarus Verilog Windows installer, or
+installed separately via Homebrew above) or in ModelSim later.
 
 ### 5. Simulate in ModelSim
 
