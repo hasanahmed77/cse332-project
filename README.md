@@ -116,6 +116,29 @@ vvp sim.vvp
 viewable in GTKWave (bundled with the Icarus Verilog Windows installer) or
 in ModelSim later.
 
+### 5. Simulate in ModelSim
+
+No changes to the `.v` files are needed — ModelSim reads the same source
+that Icarus Verilog does. From the `MIPSVerilogWOJALv1/MIPSVerilogWOJALv1`
+directory (`rom.v`/`ram.v` load `memfile.txt`/`datafile.txt` with a
+relative path, so the working directory matters):
+
+```
+vsim -do sim.do
+```
+
+`sim.do` compiles both files (`MIPS_SCP_tb.v` doesn't `include` the top
+module itself, so it and `MIPS_SCP.v` are named explicitly — everything
+else is pulled in through the `include` chain), opens a wave window with
+PC, the control signals, HI/LO, and the ALU result already added, and runs
+to completion. Or do it by hand in the GUI: **Compile > Compile...** both
+files, **Simulate > Start Simulation... > work > MIPS_SCP_tb**, then
+**Simulate > Run > Run -All**.
+
+The Transcript pane prints the same final register/HI/LO values `vvp`
+does. `memfile.txt` currently holds the baseline program; swap in
+`jal_jr_test.s` or `mult_test.s` first (step 3 above) to see those.
+
 ## Test programs and expected results
 
 | Program | Exercises | Expected result |
