@@ -85,13 +85,23 @@ cd Assembler/Assembler
 g++ -O2 -std=gnu++17 -o MipsAssembler.exe finalassembler.cpp
 ```
 
-**macOS** — clang ships with Xcode Command Line Tools (`xcode-select
---install` if you don't have them yet); plain `g++` works too if you have
-it via Homebrew. No `.exe` extension needed for the output.
+**macOS** — the system `g++`/`clang++` (from Xcode Command Line Tools,
+`xcode-select --install` if you don't have them yet) is actually Apple
+Clang, which doesn't ship the GNU-only `bits/stdc++.h` header this file
+includes, so it fails with `fatal error: 'bits/stdc++.h' file not found`.
+Install a real GCC via Homebrew instead:
+
+```bash
+brew install gcc
+```
+
+Then build with the versioned binary Homebrew installs (e.g. `g++-16` —
+check `ls /opt/homebrew/bin/g++-*` for the exact version) instead of plain
+`g++`. No `.exe` extension needed for the output.
 
 ```bash
 cd Assembler/Assembler
-g++ -O2 -std=gnu++17 -o MipsAssembler finalassembler.cpp
+g++-16 -O2 -std=gnu++17 -o MipsAssembler finalassembler.cpp
 ```
 
 (`MipsAssembler.exe` is a Windows binary and won't run on macOS — build a
