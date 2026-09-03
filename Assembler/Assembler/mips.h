@@ -61,8 +61,9 @@ set<string> instruction = {
     "sub", "subu", "slt", "sltu", "and", "or", "xor", "nor", "sll", "srl",
     "sra", "mult", "multu", "div", "divu", "addi", "addiu", "andi", "ori", "xori",
     "lui", "slti",  "beq", "bne", "blez", "bgtz", "bltz", "bgez", "j",
-    "jal", "jalr", "jr", "mfhi", "mflo", 
-     "syscall", "la", "move", "li", "nop", "sltiu"
+    "jal", "jalr", "jr", "mfhi", "mflo",
+     "syscall", "la", "move", "li", "nop", "sltiu",
+     "min", "max", "sum"
 	};
 
 // map of instructions with the type of syntax of operands
@@ -112,7 +113,10 @@ map<string, int >  instr_type = {
 	pair<string,int>  ("move",4),
 	pair<string,int>  ("li",6),
 	pair<string,int>  ("nop",1),
-	pair<string,int>  ("sltiu",3)
+	pair<string,int>  ("sltiu",3),
+	pair<string,int>  ("min",2),
+	pair<string,int>  ("max",2),
+	pair<string,int>  ("sum",2)
 };
 
 //map of register and operations with binary code
@@ -126,7 +130,12 @@ map<string, string> type2_op = {
 	pair<string, string>  ("and","100100"),
 	pair<string, string>  ("or","100101"),
 	pair<string, string>  ("xor","100110"),
-	pair<string, string>  ("nor","100111")
+	pair<string, string>  ("nor","100111"),
+	// Added for this project. These three function codes are unused in the
+	// MIPS I R type encoding space, so they do not collide with anything.
+	pair<string, string>  ("min","101100"),
+	pair<string, string>  ("max","101101"),
+	pair<string, string>  ("sum","101110")
 };
 
 map<string, string> type3_op1 = {

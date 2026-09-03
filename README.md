@@ -26,6 +26,15 @@ already had SLL/SRL wired up, the following were added:
 | **MULT** `mult $rs,$rt` | R-type | 64-bit signed multiply: `{HI,LO} = $rs * $rt` |
 | **MFHI** `mfhi $rd` | R-type | `$rd = HI` |
 | **MFLO** `mflo $rd` | R-type | `$rd = LO` |
+| **MIN** `min $rd,$rs,$rt` | R-type | `$rd = min($rs, $rt)`, signed comparison |
+| **MAX** `max $rd,$rs,$rt` | R-type | `$rd = max($rs, $rt)`, signed comparison |
+| **SUM** `sum $rd,$rs,$rt` | R-type | `$rd = $rs + $rt` |
+
+MIN/MAX/SUM are not part of the MIPS-I ISA — they're custom instructions
+added for this project, using function codes `101100`/`101101`/`101110`,
+which are unused in the real R-type encoding space so they collide with
+nothing. Note that **SUM is functionally identical to ADD**; it exists as a
+separately-decoded opcode rather than a distinct operation.
 
 All five were verified end-to-end: assembled with the (Windows-native)
 assembler, loaded into the instruction ROM, and run in simulation, with
@@ -35,7 +44,8 @@ register/HI/LO values checked against hand-calculated expected results.
 
 | File | Change |
 |---|---|
-| `control.v` | New outputs `JAL`, `JR`, `MultOp`, `MFHiLo`. Decodes JAL (opcode `000011`), JR (funct `001000`), MULT (funct `011000`), MFHI (funct `010000`), MFLO (funct `010010`). JR/MULT force `RegWrite=0` since neither writes a general-purpose register. |
+| `control.v` | New outputs `JAL`, `JR`, `MultOp`, `MFHiLo`. Decodes JAL (opcode `000011`), JR (funct `001000`), MULT (funct `011000`), MFHI (funct `010000`), MFLO (funct `010010`), MIN (funct `101100`), MAX (funct `101101`), SUM (funct `101110`). JR/MULT force `RegWrite=0` since neither writes a general-purpose register; MIN/MAX/SUM need no extra control signals at all, since the R-type defaults are already correct for them. |
+| `alu32.v` | **`ALUControl` widened from 4 bits to 5.** The original field had only code `1111` free, and MIN/MAX/SUM needed three codes. Every pre-existing operation keeps its old value with a leading `0`, so nothing that worked before changed. New codes: MIN `10000`, MAX `10001`, SUM `10010`. |
 | `datapath.v` | Write-register mux and write-back-data mux widened from 2-way to 4-way (`mux4`, previously unused in the starter) so JAL can force the destination to `$ra` and the write-back value to `PC+4`. A new mux chains onto the existing jump mux so JR can force the next PC to the register file's `Read data 1` output. A 64-bit signed multiplier plus new `HI`/`LO` registers (`hilo.v`) feed one more write-back mux for MFHI/MFLO. |
 | `hilo.v` | **New file.** Clocked HI/LO register pair, written on `MultOp`. |
 | `MIPS_SCP.v` | Wires the new control signals between `control.v` and `datapath.v`. |
@@ -182,6 +192,7 @@ does. `memfile.txt` currently holds the baseline program; swap in
 |---|---|---|
 | `input.s/jal_jr_test.s` | JAL, JR, SLL, SRL, ADD, ADDI, J | `a0=5, v0=105 (a0+100), ra=12, t1=105 (== v0, proves JR returned correctly), t2=20 (5<<2), t3=10 (20>>1), t7=1 (reached the end)` |
 | `input.s/mult_test.s` | MULT, MFHI, MFLO | `-5 * 5 = -25` → `HI=0xFFFFFFFF, LO=0xFFFFFFE7`, and `mflo`/`mfhi` correctly copy those into `$t2`/`$t3` |
+| `input.s/minmaxsum_test.s` | MIN, MAX, SUM, SW | `min(25,7)=7`, `max(25,7)=25`, `sum(25,7)=32`, plus `min(25,-12)=-12` and `max(-12,7)=7` to prove the comparison is signed. All five results stored to data memory and dumped to `minmax_dmem_dump.txt`. Uses its own testbench `MIPS_SCP_minmax_tb.v` (runs 20 cycles, since this program is 14 instructions). |
 
 `memfile.txt` currently ships with the **original baseline program** (the
 one the starter repo came with) so the ROM matches the unmodified starter

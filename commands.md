@@ -99,6 +99,63 @@ non-zero word: `00000063` at index 2. That file is the "screenshot" of
 data memory — open it directly, or expand `uut` → `dmem` → `Dmem` in
 Surfer's Scopes to see the same array live in the waveform viewer.
 
+## 4b. MIN / MAX / SUM test (custom instructions, also writes to dmem)
+
+MIN, MAX and SUM are custom R-type instructions added for this project
+(function codes `101100`, `101101`, `101110`). This test computes all three
+and stores every result to data memory, so the dump file doubles as the
+evidence. Uses its own testbench, `MIPS_SCP_minmax_tb.v`, which runs 20
+cycles instead of 10 because the program is 14 instructions long.
+
+```bash
+cd /Users/mustakimahmedhasan/Studies/NSU/262/CSE332/project/Assembler/Assembler
+./MipsAssembler input.s/minmaxsum_test.s output/minmaxsum_test.out logs/minmaxsum_test.log > /dev/null
+./to_memfile.sh output/minmaxsum_test.out > /Users/mustakimahmedhasan/Studies/NSU/262/CSE332/project/MIPSVerilogWOJALv1/MIPSVerilogWOJALv1/memfile.txt
+
+cd /Users/mustakimahmedhasan/Studies/NSU/262/CSE332/project/MIPSVerilogWOJALv1/MIPSVerilogWOJALv1
+iverilog -g2012 -o sim_minmax.vvp MIPS_SCP.v MIPS_SCP_minmax_tb.v
+vvp sim_minmax.vvp
+```
+
+Expected result:
+```
+--- registers ---
+t0=25  t1=7  t2=-12
+min(25,7)   -> s0 = 7
+max(25,7)   -> s1 = 25
+sum(25,7)   -> s2 = 32
+min(25,-12) -> s3 = -12
+max(-12,7)  -> s4 = 7
+reached end -> t7 = 1
+
+--- data memory ---
+Dmem[0] @byte 0  = 7 (00000007)
+Dmem[1] @byte 4  = 25 (00000019)
+Dmem[2] @byte 8  = 32 (00000020)
+Dmem[3] @byte 12 = -12 (fffffff4)
+Dmem[4] @byte 16 = 7 (00000007)
+```
+
+The last two register lines are the important ones. `min(25,-12) = -12` and
+`max(-12,7) = 7` only come out that way if the comparison is **signed** — an
+unsigned compare would give 25 and -12 instead, because -12 as an unsigned
+32-bit value is huge.
+
+`minmax_dmem_dump.txt` is written alongside `memfile.txt`. It's a full
+128-word dump of data memory with exactly five non-zero words at the top,
+which is the screenshot-friendly artifact for this test:
+
+```
+// 0x00000000
+00000007      <- min(25,7)  = 7
+00000019      <- max(25,7)  = 25
+00000020      <- sum(25,7)  = 32
+fffffff4      <- min(25,-12) = -12, two's complement
+00000007      <- max(-12,7) = 7
+00000000
+...
+```
+
 ## 5. (Optional) View the waveform
 
 ```bash

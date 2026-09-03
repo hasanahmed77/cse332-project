@@ -13,7 +13,7 @@ module MIPS_SCP(input clk,
                 
 wire [31:0] PC, Instr, ReadData, WriteData, ALUResult;
 wire RegDst,RegWrite, ALUSrc, Jump, JAL, JR, MultOp, MFHiLo, MemtoReg, PCSrc , Zero, MemWrite;
-wire [3:0] ALUControl;
+wire [4:0] ALUControl;
 
 Datapath datapathcomp(clk, reset, RegDst,RegWrite, ALUSrc,Jump,JAL,JR,MultOp,MFHiLo,MemtoReg ,
                      PCSrc,ALUControl,ReadData, Instr, PC, Zero,
