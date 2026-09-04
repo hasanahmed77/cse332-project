@@ -52,7 +52,7 @@ const TCAP = (num, title) => [
 // ---------------- title block ----------------
 const titleBlock = [
   new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 90 },
-    children: [new TextRun({ text: "Extending a Single Cycle MIPS Processor with JAL, JR, MULT, MFHI and MFLO", size: 34, bold: true })] }),
+    children: [new TextRun({ text: "Extending a Single Cycle MIPS Processor with JAL, JR, MULT, MFHI, MFLO, MIN, MAX and SUM", size: 32, bold: true })] }),
   new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 240 },
     children: [new TextRun({ text: "CSE332 Computer Architecture and Organization, Assignment 5, Summer 2026", size: 20, italics: true })] }),
 ];
@@ -100,30 +100,33 @@ const cw   = [1815,682,682,770,770,770,770,616,572,528,726,748,770];
 
 const rows = [
   ["R type ALU ops","1","0","0","1","0","0, 0","0","0","0","0","0","per op"],
-  ["sll","1","0","0","1","0","0, 0","0","0","0","0","0","0101"],
-  ["srl","1","0","0","1","0","0, 0","0","0","0","0","0","0110"],
-  ["sra","1","0","0","1","0","0, 0","0","0","0","0","0","0111"],
-  ["sllv","1","0","0","1","0","0, 0","0","0","0","0","0","1011"],
-  ["srlv","1","0","0","1","0","0, 0","0","0","0","0","0","1100"],
-  ["srav","1","0","0","1","0","0, 0","0","0","0","0","0","1101"],
+  ["sll","1","0","0","1","0","0, 0","0","0","0","0","0","00101"],
+  ["srl","1","0","0","1","0","0, 0","0","0","0","0","0","00110"],
+  ["sra","1","0","0","1","0","0, 0","0","0","0","0","0","00111"],
+  ["sllv","1","0","0","1","0","0, 0","0","0","0","0","0","01011"],
+  ["srlv","1","0","0","1","0","0, 0","0","0","0","0","0","01100"],
+  ["srav","1","0","0","1","0","0, 0","0","0","0","0","0","01101"],
   ["jr  (added)","X","X","X","0","0","0, 0","0","0","1","0","0","X"],
   ["mult  (added)","X","0","X","0","0","0, 0","0","0","0","1","0","X"],
   ["mfhi  (added)","1","0","X","1","0","0, 0","0","0","0","0","1","X"],
   ["mflo  (added)","1","0","X","1","0","0, 0","0","0","0","0","1","X"],
-  ["lw","0","1","1","1","0","0, 0","0","0","0","0","0","0000"],
-  ["sw","X","1","X","0","1","0, 0","0","0","0","0","0","0000"],
-  ["beq","X","0","X","0","0","1, 0","0","0","0","0","0","0001"],
-  ["bne","X","0","X","0","0","1, 1","0","0","0","0","0","0001"],
-  ["addi","0","1","0","1","0","0, 0","0","0","0","0","0","0000"],
-  ["addiu","0","1","0","1","0","0, 0","0","0","0","0","0","0000"],
-  ["andi","0","1","0","1","0","0, 0","0","0","0","0","0","0010"],
-  ["ori","0","1","0","1","0","0, 0","0","0","0","0","0","0011"],
-  ["xori","0","1","0","1","0","0, 0","0","0","0","0","0","0100"],
-  ["slti","0","1","0","1","0","0, 0","0","0","0","0","0","1000"],
-  ["sltiu","0","1","0","1","0","0, 0","0","0","0","0","0","1001"],
+  ["min  (added)","1","0","0","1","0","0, 0","0","0","0","0","0","10000"],
+  ["max  (added)","1","0","0","1","0","0, 0","0","0","0","0","0","10001"],
+  ["sum  (added)","1","0","0","1","0","0, 0","0","0","0","0","0","10010"],
+  ["lw","0","1","1","1","0","0, 0","0","0","0","0","0","00000"],
+  ["sw","X","1","X","0","1","0, 0","0","0","0","0","0","00000"],
+  ["beq","X","0","X","0","0","1, 0","0","0","0","0","0","00001"],
+  ["bne","X","0","X","0","0","1, 1","0","0","0","0","0","00001"],
+  ["addi","0","1","0","1","0","0, 0","0","0","0","0","0","00000"],
+  ["addiu","0","1","0","1","0","0, 0","0","0","0","0","0","00000"],
+  ["andi","0","1","0","1","0","0, 0","0","0","0","0","0","00010"],
+  ["ori","0","1","0","1","0","0, 0","0","0","0","0","0","00011"],
+  ["xori","0","1","0","1","0","0, 0","0","0","0","0","0","00100"],
+  ["slti","0","1","0","1","0","0, 0","0","0","0","0","0","01000"],
+  ["sltiu","0","1","0","1","0","0, 0","0","0","0","0","0","01001"],
   ["j","X","X","X","0","0","0, 0","1","0","0","0","0","X"],
   ["jal  (added)","X","X","X","1","0","0, 0","1","1","0","0","0","X"],
-  ["lui","0","1","0","1","0","0, 0","0","0","0","0","0","1110"],
+  ["lui","0","1","0","1","0","0, 0","0","0","0","0","0","01110"],
 ];
 
 function tcell(v, i, opt = {}) {
@@ -173,6 +176,9 @@ const encRows = [
   ["mult $t0, $t1", "0x01090018", "opcode 000000, rs 01000, rt 01001, function field 011000"],
   ["mflo $t2", "0x00005012", "opcode 000000, rd 01010, function field 010010"],
   ["mfhi $t3", "0x00005810", "opcode 000000, rd 01011, function field 010000"],
+  ["min $s0, $t0, $t1", "0x0109802C", "opcode 000000, rs 01000, rt 01001, rd 10000, function field 101100"],
+  ["max $s1, $t0, $t1", "0x0109882D", "opcode 000000, rs 01000, rt 01001, rd 10001, function field 101101"],
+  ["sum $s2, $t0, $t1", "0x0109902E", "opcode 000000, rs 01000, rt 01001, rd 10010, function field 101110"],
 ];
 const encTable = new Table({
   columnWidths: ecw,
@@ -209,7 +215,7 @@ const doc = new Document({
         new Paragraph({ alignment: AlignmentType.BOTH, spacing: { after: 120, line: 230 },
           children: [
             new TextRun({ text: "Abstract. ", size: 19, bold: true, italics: true }),
-            new TextRun({ text: "This report describes the work we did to extend a single cycle MIPS processor written in Verilog. The design we were given already handled the shift instructions SLL and SRL, but it had no support for jump and link or for jump register, and it had no multiply unit at all. We added JAL, JR, MULT, MFHI and MFLO. Most of the work sits in the control unit, although each new instruction also needs a small amount of extra hardware in the datapath. We give the full control signal truth table, two annotated figures showing what we added, worked encoding examples taken from a real assembler, and the results we measured after running test programs on the finished processor. Every value the processor produced matched what we had worked out by hand.", size: 19, italics: true }),
+            new TextRun({ text: "This report describes the work we did to extend a single cycle MIPS processor written in Verilog. The design we were given already handled the shift instructions SLL and SRL, but it had no support for jump and link or for jump register, and it had no multiply unit at all. We added JAL, JR, MULT, MFHI and MFLO, and then three custom instructions of our own called MIN, MAX and SUM. Most of the work sits in the control unit, although each new instruction also needs a varying amount of extra hardware in the datapath, ranging from none at all for MIN and MAX up to a whole multiplier and a new pair of registers for MULT. We give the full control signal truth table, two annotated figures showing what we added, worked encoding examples taken from a real assembler, and the results we measured after running test programs on the finished processor. Every value the processor produced matched what we had worked out by hand.", size: 19, italics: true }),
           ] }),
         new Paragraph({ alignment: AlignmentType.BOTH, spacing: { after: 200, line: 230 },
           children: [
@@ -227,6 +233,7 @@ const doc = new Document({
         P("JR is an R type instruction with a function field of 001000. It reads a register, normally $ra, and copies that value straight into the program counter. It writes no register of its own."),
         P("MULT is also R type. It multiplies the two source registers as signed numbers and produces a 64 bit result. That result is too large for a general purpose register, so MIPS keeps it in two dedicated registers called HI and LO. HI holds the upper 32 bits and LO holds the lower 32 bits."),
         P("MFHI and MFLO are the instructions that read those two dedicated registers back out again. MFHI copies HI into rd and MFLO copies LO into rd."),
+        P("MIN, MAX and SUM are not part of the MIPS instruction set at all. They are custom instructions we added on top. MIN writes the smaller of its two source registers into rd and MAX writes the larger, both treating the values as signed. SUM writes the sum of the two source registers into rd. It is worth being upfront that SUM performs exactly the same operation as ADD. It exists as a separately decoded instruction with its own function code rather than as a genuinely new operation."),
 
         H("III.  WHAT WE ADDED TO THE DATAPATH"),
         SubH("A.  Jump and link"),
@@ -238,6 +245,11 @@ const doc = new Document({
         P("The multiply family needed the most new hardware. We added a signed 64 bit multiplier driven by the two register file outputs, together with a new pair of clocked registers called HI and LO which live in a new file named hilo.v. The control signal MultOp acts as the write enable for that pair, so the product is only stored when a MULT instruction is actually executing.", { indent: false }),
         P("Reading the values back needed one more mux on the write back path. When MFHiLo is high, the value written into rd comes from HI or LO instead of from the usual write back mux. Choosing between HI and LO turned out to need no new control signal at all. MIPS numbers MFHI as 010000 and MFLO as 010010, so bit 1 of the function field already tells them apart, and we used that bit directly as the select line."),
         P("One detail is worth stating clearly. MULT and JR both have to hold RegWrite low, because neither of them writes a general purpose register. MFHI and MFLO are the opposite case. They are ordinary R type writes to rd, so they keep the normal R type values for RegDst and RegWrite."),
+        SubH("D.  Minimum, maximum and sum"),
+        P("These three needed no new control signals whatsoever, which makes them the cheapest additions in the whole project. They are plain three operand R type instructions that read two registers, do something in the ALU, and write the result to rd. That is exactly what the existing R type defaults already describe, so RegDst, RegWrite, ALUSrc and MemtoReg all keep the values they already had. The only thing the control unit does is select the right ALU operation.", { indent: false }),
+        P("The real obstacle was somewhere else entirely. The ALU operation is selected by a field called ALUControl, and that field was four bits wide. Fifteen of its sixteen possible codes were already spoken for, which left exactly one free code, and we needed three. So we widened ALUControl from four bits to five. That change touches four files, because the field runs from the control unit through the datapath and into the ALU."),
+        P("Widening a field that everything depends on sounds risky, but it was made safe by giving every existing operation its old code with a leading zero added. ADD was 0000 and became 00000, SLT was 1000 and became 01000, and so on for all fifteen. Nothing that previously worked changed meaning. The three new codes then live in the upper half of the widened space, which was entirely empty before. We re ran all three earlier test programs afterwards and every result was identical to what it had been, which is what we would expect if the widening was done correctly."),
+        P("For the function codes we picked 101100, 101101 and 101110. These are unused in the real MIPS R type encoding space, so the new instructions cannot be confused with any genuine MIPS instruction."),
       ],
     },
 
@@ -295,26 +307,36 @@ always @(*) begin
         P("Inside the R type branch we added four new function codes. JR and MULT raise their own signal, while MFHI and MFLO share MFHiLo because the function field bit already separates them.", { indent: false }),
         CODE(
 `6'b001000: begin              // JR
-    ALUControl <= 4'b0000;
+    ALUControl <= 5'b00000;
     JR <= 1'b1;
   end
 6'b011000: begin              // MULT
-    ALUControl <= 4'b0000;
+    ALUControl <= 5'b00000;
     MultOp <= 1'b1;
   end
 6'b010000: begin              // MFHI
-    ALUControl <= 4'b0000;
+    ALUControl <= 5'b00000;
     MFHiLo <= 1'b1;
   end
 6'b010010: begin              // MFLO
-    ALUControl <= 4'b0000;
+    ALUControl <= 5'b00000;
     MFHiLo <= 1'b1;
   end`),
+        P("MIN, MAX and SUM sit in the same R type branch but are far simpler, because selecting an ALU operation is the only thing they need.", { indent: false }),
+        CODE(
+`6'b101100: ALUControl <= 5'b10000;  // MIN
+6'b101101: ALUControl <= 5'b10001;  // MAX
+6'b101110: ALUControl <= 5'b10010;  // SUM`),
+        P("The matching ALU entries, where a and b are the two source register values, read as follows. Both comparisons are wrapped in a signed cast, which is what makes negative operands behave correctly.", { indent: false }),
+        CODE(
+`5'b10000: y = $signed(a) < $signed(b) ? a : b;
+5'b10001: y = $signed(a) > $signed(b) ? a : b;
+5'b10010: y = a + b;`),
         P("JAL is decoded from its own opcode rather than from a function field, because it is a J type instruction.", { indent: false }),
         CODE(
 `6'b000011: begin              // JAL
     temp <= 8'b10000010;
-    ALUControl <= 4'b0000;
+    ALUControl <= 5'b00000;
     JAL <= 1'b1;
   end`),
         P("Finally, JR and MULT have to cancel the RegWrite bit that the R type default switched on. We do that after the packed temp vector has been unpacked, and we test the opcode and function inputs directly rather than testing our own JR and MultOp outputs. The reason for that choice is explained in Section VI.", { indent: false }),
@@ -334,6 +356,22 @@ if (Opcode == 6'b000000 &&
         P("The first program calls a function with jal, returns from it with jr, and then performs a shift left and a shift right. The processor finished with $a0 equal to 5, $v0 equal to 105, $ra equal to 12, $t1 equal to 105, $t2 equal to 20 and $t3 equal to 10. The value in $t1 is the important one, because it could only have been produced if jr returned control to the correct instruction."),
         P("The second program multiplies negative five by five and then reads both halves of the answer back. We deliberately chose a negative operand so that the test would catch a multiplier that got the low word right but the sign extension wrong. HI came out as 0xFFFFFFFF and LO came out as 0xFFFFFFE7, which together represent minus 25 as a 64 bit signed value, and mflo and mfhi copied those into $t2 and $t3 correctly."),
         P("After adding the multiply hardware we reran both earlier programs to confirm that nothing had broken, and the results were identical to before."),
+        P("The third program tests MIN, MAX and SUM, and it also writes its answers into data memory so that the results survive somewhere we can inspect after the run has finished. It computes min and max and sum of 25 and 7, and then repeats min and max using 25 against negative 12."),
+        P("That negative operand is deliberate. A test built only from positive numbers would pass whether the comparison was signed or unsigned, so it would prove very little. Negative 12 read as an unsigned 32 bit number is roughly 4.29 billion, which is larger than 25 rather than smaller. So an unsigned comparison would report the minimum of 25 and negative 12 as 25, and the maximum of negative 12 and 7 as negative 12. Our processor returned negative 12 and 7 respectively, which is only possible with a correctly signed comparison."),
+        P("The register results were min of 25 and 7 gives 7, max of 25 and 7 gives 25, sum of 25 and 7 gives 32, min of 25 and negative 12 gives negative 12, and max of negative 12 and 7 gives 7. All five match hand calculation."),
+        P("The five values were then stored to consecutive words of data memory, and the testbench dumped the whole of data memory to a file at the end of the run. The relevant part of that dump is shown below. Every word outside the first five is zero, which is itself a useful check, because it confirms the stores landed exactly where they were addressed and did not disturb anything else."),
+        CODE(
+`// 0x00000000
+00000007     min(25, 7)   = 7
+00000019     max(25, 7)   = 25
+00000020     sum(25, 7)   = 32
+fffffff4     min(25, -12) = -12
+00000007     max(-12, 7)  = 7
+00000000
+00000000
+00000000
+...           all remaining words are zero`),
+        P("The fourth entry is worth a second look. Negative 12 stored as a 32 bit two's complement value is fffffff4 in hexadecimal, which is what appears in memory. This confirms the negative result was not only computed correctly but also written to memory intact.", { indent: false }),
 
         H("VI.  PROBLEMS WE RAN INTO"),
         P("Three faults in the starter files had to be fixed before any simulation would run at all. None of them are related to the instructions we added, but all of them blocked progress.", { indent: false }),
@@ -342,7 +380,7 @@ if (Opcode == 6'b000000 &&
         P("The fix was to stop writing temp twice. We assign it once, then apply the JR and MULT overrides afterwards using the opcode and function inputs, which are stable. It is a useful thing to know about, because a simulation that hangs with no error message gives you very little to go on."),
 
         H("VII.  CONCLUSION"),
-        P("We added five instructions to the single cycle MIPS design we were given. JAL and JR were the two required by the assignment, and MULT, MFHI and MFLO followed afterwards. Two of the five needed only wider versions of muxes that already existed, one needed a new path into the program counter, and the multiply family needed a multiplier and a new pair of registers.", { indent: false }),
+        P("We added eight instructions to the single cycle MIPS design we were given. JAL and JR were the two required by the assignment, MULT, MFHI and MFLO followed afterwards, and MIN, MAX and SUM were added last as custom instructions of our own. The amount of hardware each one needed varied a great deal. MIN, MAX and SUM needed no new control signals at all and only a wider ALU control field. JAL needed wider versions of muxes that already existed. JR needed a new path into the program counter. The multiply family needed a multiplier and a new pair of registers.", { indent: false }),
         P("We verified all of them in simulation against values we had calculated by hand, and we did the entire project natively on Windows. The same Verilog files will run unchanged in ModelSim when it becomes available to us."),
       ],
     },
