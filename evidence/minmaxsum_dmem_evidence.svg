@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 760" font-family="Arial, Helvetica, sans-serif">
+  <rect x="0" y="0" width="1180" height="760" fill="white"/>
+
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#c0392b"/>
+    </marker>
+    <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1f5fa8"/>
+    </marker>
+  </defs>
+
+  <!-- title -->
+  <text x="40" y="44" font-size="25" font-weight="bold" fill="#111">Data memory after running minmaxsum_prog.s</text>
+  <text x="40" y="70" font-size="16" fill="#555">Minimum, maximum and sum of an array, computed with stock MIPS instructions only.</text>
+  <text x="40" y="92" font-size="16" fill="#555">File shown verbatim. Labels on the right are annotations, they are not part of the file.</text>
+
+  <!-- ============ left, the file ============ -->
+  <text x="40" y="130" font-size="15" font-weight="bold" fill="#333">minmaxprog_dmem_dump.txt</text>
+  <rect x="40" y="142" width="330" height="510" fill="#fbfbfb" stroke="#bbb" stroke-width="1.5"/>
+
+  <g font-family="Consolas, 'Courier New', monospace" font-size="17">
+    <text x="58" y="170" fill="#888">// 0x00000000</text>
+    <text x="58" y="198" fill="#111" font-weight="bold">00000011</text>
+    <text x="58" y="226" fill="#111" font-weight="bold">0000002a</text>
+    <text x="58" y="254" fill="#111" font-weight="bold">00000008</text>
+    <text x="58" y="282" fill="#111" font-weight="bold">00000017</text>
+    <text x="58" y="310" fill="#111" font-weight="bold">00000004</text>
+    <text x="58" y="338" fill="#aaa">00000000</text>
+    <text x="58" y="366" fill="#aaa">00000000</text>
+    <text x="58" y="394" fill="#aaa">00000000</text>
+    <text x="58" y="422" fill="#c0392b" font-weight="bold">00000004</text>
+    <text x="58" y="450" fill="#c0392b" font-weight="bold">0000002a</text>
+    <text x="58" y="478" fill="#c0392b" font-weight="bold">0000005e</text>
+    <text x="58" y="506" fill="#aaa">00000000</text>
+    <text x="58" y="534" fill="#aaa">00000000</text>
+    <text x="58" y="562" fill="#aaa">00000000</text>
+    <text x="58" y="590" fill="#aaa">00000000</text>
+    <text x="58" y="618" fill="#aaa">00000000</text>
+    <text x="58" y="646" fill="#888">// 0x00000010</text>
+  </g>
+
+  <!-- word index gutter -->
+  <g font-family="Consolas, 'Courier New', monospace" font-size="13" fill="#999">
+    <text x="176" y="198">word 0</text>
+    <text x="176" y="226">word 1</text>
+    <text x="176" y="254">word 2</text>
+    <text x="176" y="282">word 3</text>
+    <text x="176" y="310">word 4</text>
+    <text x="176" y="338">word 5</text>
+    <text x="176" y="366">word 6</text>
+    <text x="176" y="394">word 7</text>
+    <text x="176" y="422">word 8</text>
+    <text x="176" y="450">word 9</text>
+    <text x="176" y="478">word 10</text>
+  </g>
+
+  <text x="40" y="676" font-size="14" fill="#666">Remaining words to 127 are all zero.</text>
+
+  <!-- ============ input bracket ============ -->
+  <path d="M392,186 h-14 v132 h14" fill="none" stroke="#1f5fa8" stroke-width="2.5"/>
+  <path d="M378,252 h-22" fill="none" stroke="#1f5fa8" stroke-width="2.5" marker-end="url(#ab)"/>
+  <text x="404" y="238" font-size="19" font-weight="bold" fill="#1f5fa8">INPUT, the array</text>
+  <g font-family="Consolas, 'Courier New', monospace" font-size="16" fill="#333">
+    <text x="404" y="266">0x11 = 17</text>
+    <text x="404" y="288">0x2a = 42</text>
+    <text x="404" y="310">0x08 = 8</text>
+    <text x="404" y="332">0x17 = 23</text>
+    <text x="404" y="354">0x04 = 4</text>
+  </g>
+  <text x="404" y="382" font-size="14" fill="#666">Loaded from the assembler's .data section.</text>
+
+  <!-- ============ output bracket ============ -->
+  <path d="M392,410 h-14 v76 h14" fill="none" stroke="#c0392b" stroke-width="2.5"/>
+  <path d="M378,448 h-22" fill="none" stroke="#c0392b" stroke-width="2.5" marker-end="url(#ar)"/>
+  <text x="404" y="440" font-size="19" font-weight="bold" fill="#c0392b">OUTPUT, the results</text>
+  <g font-family="Consolas, 'Courier New', monospace" font-size="16" fill="#333">
+    <text x="404" y="468">0x04 = 4    minimum</text>
+    <text x="404" y="490">0x2a = 42   maximum</text>
+    <text x="404" y="512">0x5e = 94   sum</text>
+  </g>
+  <text x="404" y="540" font-size="14" fill="#666">Written by sw to byte addresses 32, 36 and 40.</text>
+
+  <!-- ============ check panel ============ -->
+  <rect x="404" y="566" width="736" height="86" fill="#f4f9f4" stroke="#8bbf8b" stroke-width="1.5"/>
+  <text x="420" y="592" font-size="16" font-weight="bold" fill="#2d6a2d">Check against the array by hand</text>
+  <text x="420" y="616" font-size="16" fill="#333">smallest of 17, 42, 8, 23, 4 is 4.  largest is 42.</text>
+  <text x="420" y="638" font-size="16" fill="#333">17 + 42 + 8 + 23 + 4 = 94.  All three match what the processor produced.</text>
+
+  <!-- ============ program panel ============ -->
+  <text x="404" y="130" font-size="15" font-weight="bold" fill="#333">How the results were produced</text>
+  <rect x="404" y="142" width="736" height="72" fill="#fbfbfb" stroke="#bbb" stroke-width="1.5"/>
+  <text x="420" y="168" font-size="15" fill="#333">A loop over the five words using only lw, sw, add, addi, slt, beq and j.</text>
+  <text x="420" y="192" font-size="15" fill="#333">No custom instructions, so this runs on the unmodified starter datapath.</text>
+
+  <!-- footer -->
+  <text x="40" y="712" font-size="14" fill="#777">Produced by MIPS_SCP_minmaxprog_tb.v using $writememh on the data memory array, after 90 simulated clock cycles.</text>
+  <text x="40" y="734" font-size="14" fill="#777">Source program: Assembler/Assembler/input.s/minmaxsum_prog.s</text>
+</svg>
