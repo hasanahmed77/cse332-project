@@ -193,6 +193,7 @@ does. `memfile.txt` currently holds the baseline program; swap in
 | `input.s/jal_jr_test.s` | JAL, JR, SLL, SRL, ADD, ADDI, J | `a0=5, v0=105 (a0+100), ra=12, t1=105 (== v0, proves JR returned correctly), t2=20 (5<<2), t3=10 (20>>1), t7=1 (reached the end)` |
 | `input.s/mult_test.s` | MULT, MFHI, MFLO | `-5 * 5 = -25` → `HI=0xFFFFFFFF, LO=0xFFFFFFE7`, and `mflo`/`mfhi` correctly copy those into `$t2`/`$t3` |
 | `input.s/minmaxsum_test.s` | MIN, MAX, SUM, SW | `min(25,7)=7`, `max(25,7)=25`, `sum(25,7)=32`, plus `min(25,-12)=-12` and `max(-12,7)=7` to prove the comparison is signed. All five results stored to data memory and dumped to `minmax_dmem_dump.txt`. Uses its own testbench `MIPS_SCP_minmax_tb.v` (runs 20 cycles, since this program is 14 instructions). |
+| `input.s/minmaxsum_prog.s` | LW, SW, SLT, BEQ, ADD, J — **no custom instructions** | Computes min/max/sum of the array `17, 42, 8, 23, 4` in software, giving `min=4, max=42, sum=94`. Runs on the **unmodified** starter datapath. The only test that exercises conditional branching and the assembler's `.data` section. Needs `datafile.txt` loaded with the array as well as `memfile.txt` with the program — see `commands.md` step 4c. Dumps to `minmaxprog_dmem_dump.txt`, which shows input array and results together. |
 
 `memfile.txt` currently ships with the **original baseline program** (the
 one the starter repo came with) so the ROM matches the unmodified starter

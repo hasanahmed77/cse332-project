@@ -156,6 +156,77 @@ fffffff4      <- min(25,-12) = -12, two's complement
 ...
 ```
 
+## 4c. Min / max / sum as a *program* (no custom instructions)
+
+This computes the minimum, maximum and sum of a five element array using
+**only stock MIPS instructions** — `lw`, `sw`, `add`, `addi`, `slt`, `beq`,
+`j`. It therefore runs on the *unmodified* starter datapath, and does not
+depend on the MIN/MAX/SUM instructions from step 4b at all.
+
+It is also the only test that exercises conditional branching (`beq` driving
+a real loop) and the assembler's `.data` section.
+
+Unlike the other tests this one needs **both** memories loaded: the program
+into `memfile.txt` and the array into `datafile.txt`. The array lives in the
+assembler's `.data` output, padded out to 128 words so the untouched part of
+RAM reads as zero rather than undefined.
+
+```bash
+cd /Users/mustakimahmedhasan/Studies/NSU/262/CSE332/project/Assembler/Assembler
+./MipsAssembler input.s/minmaxsum_prog.s output/minmaxsum_prog.out logs/minmaxsum_prog.log > /dev/null
+./to_memfile.sh output/minmaxsum_prog.out > /Users/mustakimahmedhasan/Studies/NSU/262/CSE332/project/MIPSVerilogWOJALv1/MIPSVerilogWOJALv1/memfile.txt
+{ cat output/minmaxsum_prog.out.no_address.data.bin; awk 'BEGIN{s="";for(i=0;i<32;i++)s=s"0"; for(j=0;j<123;j++) print s}'; } > /Users/mustakimahmedhasan/Studies/NSU/262/CSE332/project/MIPSVerilogWOJALv1/MIPSVerilogWOJALv1/datafile.txt
+
+cd /Users/mustakimahmedhasan/Studies/NSU/262/CSE332/project/MIPSVerilogWOJALv1/MIPSVerilogWOJALv1
+iverilog -g2012 -o sim_minmaxprog.vvp MIPS_SCP.v MIPS_SCP_minmaxprog_tb.v
+vvp sim_minmaxprog.vvp
+```
+
+Expected result:
+```
+--- input array, read from data memory ---
+arr[0]=17  arr[1]=42  arr[2]=8  arr[3]=23  arr[4]=4
+
+--- results in registers ---
+min -> s0 = 4
+max -> s1 = 42
+sum -> s2 = 94
+finished -> t7 = 1
+
+--- results written back to data memory ---
+Dmem[8]  @byte 32 = 4   (min)
+Dmem[9]  @byte 36 = 42   (max)
+Dmem[10] @byte 40 = 94   (sum)
+```
+
+`minmaxprog_dmem_dump.txt` shows the input and the output side by side,
+which makes it the most self explanatory dump of the four:
+
+```
+// 0x00000000
+00000011      arr[0] = 17
+0000002a      arr[1] = 42
+00000008      arr[2] = 8
+00000017      arr[3] = 23
+00000004      arr[4] = 4
+00000000
+00000000
+00000000
+00000004      min = 4
+0000002a      max = 42
+0000005e      sum = 94
+00000000
+...           all remaining words are zero
+```
+
+**Afterwards, restore `datafile.txt` to zeros**, otherwise the array is left
+behind in memory and will show up in the other tests' dumps:
+
+```bash
+cd /Users/mustakimahmedhasan/Studies/NSU/262/CSE332/project/MIPSVerilogWOJALv1/MIPSVerilogWOJALv1
+awk 'BEGIN{s="";for(i=0;i<32;i++)s=s"0"; for(j=0;j<128;j++) print s}' > datafile.txt
+```
+
 ## 5. (Optional) View the waveform
 
 ```bash
